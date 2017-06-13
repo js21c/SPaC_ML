@@ -8,8 +8,8 @@ def load_jpeg_data_in_blk(path_input, blk_size):
         for file in files:
             im = misc.imread(path_input + file, mode='YCbCr')
             w, h, c = im.shape
-            w_blk = w / blk_size
-            h_blk = h / blk_size
+            w_blk = int(w / blk_size)
+            h_blk = int(h / blk_size)
             num_patch += (w_blk * h_blk)
 
     train_set = np.zeros([num_patch, blk_size, blk_size], dtype='float')
@@ -20,8 +20,8 @@ def load_jpeg_data_in_blk(path_input, blk_size):
             im = misc.imread(path_input + file, mode='YCbCr')
             w, h, c = im.shape
             im_y = im[0,:,:]
-            w_blk = w / blk_size
-            h_blk = h / blk_size
+            w_blk = int(w / blk_size)
+            h_blk = int(h / blk_size)
 
             for y_blk in range(0, h_blk):
                 for x_blk in range(0, w_blk):
@@ -36,6 +36,7 @@ def load_jpeg_data_in_fixed_size(path_input, w, h):
     for root, dirs, files in os.walk(path_input):
         num_patch = len(files)
         train_set = np.zeros([num_patch, h, w])
+
         for file in files:
             im = misc.imread(path_input + file, mode='YCbCr')
             im_y = im[:,:,0]
