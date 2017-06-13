@@ -4,14 +4,14 @@ import sys
 
 def prepare_data(path_train):
      train_set = read_data.load_jpeg_data_in_fixed_size(path_train, 320, 240)
-     num_train, w, h = train_set.shape
-
-     if num_train == 0:
-         print "Training set loading failed!!\n"
-         return 0
-     else:
+     if len(train_set) != 0:
+         num_train, w, h = train_set.shape
          print "Training set", num_train, "x", w, "x", h, "are loaded."
          return train_set
+     else:
+         print "Training set loading failed!!\n"
+         sys.exit()
+
 
 if __name__ == "__main__":
     if len(sys.argv) == 1:
@@ -21,5 +21,5 @@ if __name__ == "__main__":
         path_train = sys.argv[1]
         print "TrainSet Directory :", path_train
         
-    prepare_data('/Users/js21c/jscode/SPaC_ML/dataset/benz/')
+    prepare_data(path_train)
 

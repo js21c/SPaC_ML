@@ -1,6 +1,7 @@
 import numpy as np
 import scipy.misc as misc
 import os
+import sys
 
 def load_jpeg_data_in_blk(path_input, blk_size):
     num_patch = 0
@@ -35,14 +36,20 @@ def load_jpeg_data_in_fixed_size(path_input, w, h):
 
     for root, dirs, files in os.walk(path_input):
         num_patch = len(files)
-        train_set = np.zeros([num_patch, h, w])
+        t_train_set = np.zeros([num_patch, h, w])
 
         for file in files:
-            im = misc.imread(path_input + file, mode='YCbCr')
-            im_y = im[:,:,0]
-            resized_im = misc.imresize(im_y, [h, w], interp='lanczos')
-            train_set[num_img] = resized_im
-            num_img = num_img + 1
+            if os.path.splitext(file)[1].lower() == '.jpg':
+                im = misc.imread(path_input + file, mode='YCbCr')
+                im_y = im[:,:,0]
+                resized_im = misc.imresize(im_y, [h, w], interp='lanczos')
+                t_train_set[num_img] = resized_im
+                num_img = num_img + 1
+
+    if num_img > 0:
+        train_set = t_train_set[0:num_img]
+    else:
+        train_set = []
             
     return train_set
 
